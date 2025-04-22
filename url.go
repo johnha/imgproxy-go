@@ -23,7 +23,7 @@ const insecureSignature = "insecure"
 // Generate generates the imgproxy URL.
 func (i *ImgproxyURLData) Generate(uri string) (string, error) {
 	if i.cfg.EncodePath {
-		uri = base64.RawStdEncoding.EncodeToString([]byte(uri))
+		uri = base64.RawURLEncoding.EncodeToString([]byte(uri))
 	} else {
 		uri = "plain/" + uri
 	}
@@ -93,23 +93,29 @@ const (
 )
 
 // Resize resizes the image.
-func (i *ImgproxyURLData) Resize(resizingType ResizingType, width int, height int, enlarge bool, extend bool) *ImgproxyURLData {
-	return i.SetOption("rs", fmt.Sprintf(
-		"%s:%d:%d:%s:%s",
-		resizingType,
-		width, height,
-		boolAsNumberString(enlarge),
-		boolAsNumberString(extend),
-	))
+func (i *ImgproxyURLData) Resize(
+	resizingType ResizingType, width int, height int, enlarge bool, extend bool,
+) *ImgproxyURLData {
+	return i.SetOption(
+		"rs", fmt.Sprintf(
+			"%s:%d:%d:%s:%s",
+			resizingType,
+			width, height,
+			boolAsNumberString(enlarge),
+			boolAsNumberString(extend),
+		),
+	)
 }
 
 // Size sets size option.
 func (i *ImgproxyURLData) Size(width int, height int, enlarge bool) *ImgproxyURLData {
-	return i.SetOption("s", fmt.Sprintf(
-		"%d:%d:%s",
-		width, height,
-		boolAsNumberString(enlarge),
-	))
+	return i.SetOption(
+		"s", fmt.Sprintf(
+			"%d:%d:%s",
+			width, height,
+			boolAsNumberString(enlarge),
+		),
+	)
 }
 
 // ResizingType sets the resizing type.
@@ -321,14 +327,17 @@ type WatermarkOffset struct {
 }
 
 // Watermark places a watermark on the processed image.
-func (i *ImgproxyURLData) Watermark(opacity int, position WatermarkPosition, offset *WatermarkOffset, scale int) *ImgproxyURLData {
+func (i *ImgproxyURLData) Watermark(
+	opacity int, position WatermarkPosition, offset *WatermarkOffset, scale int,
+) *ImgproxyURLData {
 	var offsetStr string
 
 	if offset != nil {
 		offsetStr = fmt.Sprintf(":%d:%d", offset.X, offset.Y)
 	}
 
-	return i.SetOption("wm",
+	return i.SetOption(
+		"wm",
 		fmt.Sprintf(
 			"%d:%s%s:%d", opacity, position, offsetStr, scale,
 		),

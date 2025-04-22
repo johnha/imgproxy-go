@@ -1,5 +1,9 @@
 # imgproxy-go
 
+NOTE:  A clone of the unitedwardrobe library to test the base64 URL-safe encoding method (base64.RawURLEncoding).
+The current version failed with encoding the path "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2F3M1nb8b_wuN94uxrdJ88eacQtp3d8KEB1OZ68DA13Z9iQzKSaif84Y&s"
+as example.
+
 A Go client library to generate urls for imgproxy services.
 
 Based on https://docs.imgproxy.net/
