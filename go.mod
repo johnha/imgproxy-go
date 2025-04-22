@@ -1,4 +1,4 @@
-module github.com/unitedwardrobe/imgproxy-go
+module github.com/johnha/imgproxy-go
 
 go 1.24.2
 
